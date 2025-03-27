@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://dbup3l4tk21e0"]
+
+[ext_resource type="Texture2D" uid="uid://qjbihp8vltgq" path="res://assets/sprites/cherry.png" id="1_4ojsc"]
+[ext_resource type="Script" uid="uid://bm8t2riqqmw61" path="res://item/item.gd" id="1_6t40p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6t40p"]
+
+[sub_resource type="Animation" id="Animation_0yflk"]
+resource_name = "default"
+length = 1.6
+loop_mode = 1
+step = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0, 4, 1]
+}
+
+[sub_resource type="Animation" id="Animation_qlib2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tso6w"]
+_data = {
+&"RESET": SubResource("Animation_qlib2"),
+&"default": SubResource("Animation_0yflk")
+}
+
+[node name="Item" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_6t40p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4ojsc")
+hframes = 5
+frame = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6t40p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../CollisionShape2D")
+libraries = {
+&"": SubResource("AnimationLibrary_tso6w")
+}
+autoplay = "default"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
