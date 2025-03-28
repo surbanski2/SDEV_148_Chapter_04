@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Jungle_Jump"
-run/main_scene="uid://c1aulnjcu7c8h"
+run/main_scene="uid://dbdh834vn3yok"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameState="*res://game_state.gd"
 
 [display]
 

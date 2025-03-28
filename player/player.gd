@@ -20,6 +20,16 @@ func set_life(value):
 func _ready():
 	change_state(IDLE)
 	
+func reset(_position):
+	position = _position
+	show()
+	change_state(IDLE)
+	life = 3
+	
+func hurt():
+	if state != HURT:
+		change_state(HURT)
+	
 func change_state(new_state):
 	state = new_state
 	match state:
@@ -31,9 +41,9 @@ func change_state(new_state):
 			$AnimationPlayer.play("hurt")
 			velocity.y = -200
 			velocity.x = -100 * sign(velocity.x)
-			life -= 1
 			await get_tree().create_timer(0.5).timeout
 			change_state(IDLE)
+			life -= 1
 		JUMP:
 			$AnimationPlayer.play("jump_up")
 		DEAD:
@@ -41,6 +51,9 @@ func change_state(new_state):
 			hide()
 			
 func get_input():
+	if state == HURT:
+		return
+	
 	var right = Input.is_action_pressed("right")
 	var left = Input.is_action_pressed("left")
 	var jump = Input.is_action_just_pressed("jump")
@@ -66,13 +79,11 @@ func get_input():
 	# transitions to JUMP when in the air
 	if state in [IDLE, RUN] and !is_on_floor():
 		change_state(JUMP)
-	if state == HURT:
-		return
+
 		
 func _physics_process(delta):
 	velocity.y += gravity * delta
 	get_input()
-	
 	move_and_slide()
 	if state == HURT:
 		return
@@ -91,12 +102,3 @@ func _physics_process(delta):
 	if state == JUMP and velocity.y > 0:
 		$AnimationPlayer.play("jump_down")
 		
-func reset(_position):
-	life = 3
-	position = _position
-	show()
-	change_state(IDLE)
-	
-func hurt():
-	if state != HURT:
-		change_state(HURT)
