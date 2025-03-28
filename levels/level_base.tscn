@@ -1,6 +1,38 @@
-[gd_scene format=3 uid="uid://c2wflx00x3t1c"]
+[gd_scene load_steps=7 format=3 uid="uid://c2wflx00x3t1c"]
+
+[ext_resource type="Script" uid="uid://d14l2r1mwlx0" path="res://levels/level_base.gd" id="1_ep22m"]
+[ext_resource type="TileSet" uid="uid://dhxw3f8l2saqn" path="res://assets/tilesets/tiles_world.tres" id="1_vmt1o"]
+[ext_resource type="Texture2D" uid="uid://gelr16gc03ko" path="res://assets/environment/back.png" id="2_ts4ud"]
+[ext_resource type="PackedScene" uid="uid://c2k4jew3cse8x" path="res://player/player.tscn" id="4_da5si"]
+[ext_resource type="TileSet" uid="uid://dn505hopwb4de" path="res://assets/tilesets/tiles_items.tres" id="4_ep22m"]
+[ext_resource type="TileSet" uid="uid://blhd0ogpuydej" path="res://assets/tilesets/tiles_spikes.tres" id="5_ts4ud"]
 
 [node name="LevelBase" type="Node2D"]
+script = ExtResource("1_ep22m")
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.2, 1)
+motion_mirroring = Vector2(576, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_ts4ud")
+centered = false
+
+[node name="Player" parent="." instance=ExtResource("4_da5si")]
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+
+[node name="World" type="TileMap" parent="."]
+tile_set = ExtResource("1_vmt1o")
+format = 2
+
+[node name="Items" type="TileMap" parent="."]
+tile_set = ExtResource("4_ep22m")
+format = 2
+
+[node name="Danger" type="TileMap" parent="."]
+tile_set = ExtResource("5_ts4ud")
 format = 2

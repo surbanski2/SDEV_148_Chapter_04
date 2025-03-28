@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Jungle_Jump"
-run/main_scene="uid://dexufkvw1wgj6"
+run/main_scene="uid://c1aulnjcu7c8h"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
