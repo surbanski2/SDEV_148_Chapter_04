@@ -1,40 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://bpav18qsfvejl"]
+[gd_scene load_steps=10 format=3 uid="uid://bpav18qsfvejl"]
 
 [ext_resource type="Texture2D" uid="uid://cql0ur6rlup7t" path="res://assets/sprites/opossum.png" id="1_2mvqj"]
 [ext_resource type="Script" uid="uid://gg5n41wg1cqt" path="res://enemy/enemy.gd" id="1_ofsxj"]
 [ext_resource type="Texture2D" uid="uid://ck651cw0o6bkg" path="res://assets/sprites/enemy-death.png" id="2_ppra6"]
+[ext_resource type="AudioStream" uid="uid://dxtfuwk1y032u" path="res://assets/audio/enemy_hit.ogg" id="4_p200p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ofsxj"]
 size = Vector2(30, 20)
-
-[sub_resource type="Animation" id="Animation_2mvqj"]
-resource_name = "walk"
-length = 0.6
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [ExtResource("1_2mvqj")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../Sprite2D:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 5]
-}
 
 [sub_resource type="Animation" id="Animation_ofsxj"]
 length = 0.001
@@ -80,6 +52,35 @@ tracks/1/keys = {
 "values": [0, 5]
 }
 
+[sub_resource type="Animation" id="Animation_2mvqj"]
+resource_name = "walk"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [ExtResource("1_2mvqj")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 5]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ppra6"]
 _data = {
 &"RESET": SubResource("Animation_ofsxj"),
@@ -107,5 +108,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_ppra6")
 }
 autoplay = "walk"
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_p200p")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

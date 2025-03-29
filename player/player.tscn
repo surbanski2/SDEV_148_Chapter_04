@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://c2k4jew3cse8x"]
+[gd_scene load_steps=14 format=3 uid="uid://c2k4jew3cse8x"]
 
 [ext_resource type="Texture2D" uid="uid://dxfgmedk0o3e" path="res://assets/player_sheet.png" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://begya15sydtap" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="AudioStream" uid="uid://du015fmhexam2" path="res://assets/audio/jump4.ogg" id="3_g1dw6"]
 
 [sub_resource type="Animation" id="Animation_g1dw6"]
 length = 0.001
@@ -101,9 +102,27 @@ tracks/0/keys = {
 "values": [13, 18]
 }
 
+[sub_resource type="Animation" id="Animation_boad6"]
+resource_name = "climb"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 2]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g6k8r"]
 _data = {
 &"RESET": SubResource("Animation_g1dw6"),
+&"climb": SubResource("Animation_boad6"),
 &"hurt": SubResource("Animation_qjkh3"),
 &"idle": SubResource("Animation_rkbax"),
 &"jump_down": SubResource("Animation_g6k8r"),
@@ -113,6 +132,9 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oul6g"]
 size = Vector2(16, 20)
+
+[sub_resource type="Gradient" id="Gradient_g1dw6"]
+colors = PackedColorArray(0.808811, 0.647425, 0.321002, 1, 0.807843, 0.647059, 0.321569, 0)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -138,3 +160,22 @@ shape = SubResource("RectangleShape2D_oul6g")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.5, 2.5)
 limit_top = 0
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_g1dw6")
+
+[node name="Dust" type="CPUParticles2D" parent="."]
+position = Vector2(-2, 0)
+rotation = -1.5708
+emitting = false
+amount = 20
+lifetime = 0.45
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.7
+emission_shape = 3
+emission_rect_extents = Vector2(1, 6)
+initial_velocity_min = 3.0
+initial_velocity_max = 10.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_g1dw6")
